@@ -441,7 +441,16 @@ static void fmt_msg_output_str (FILE *fp,
 
                 case KC_FMT_PAYLOAD:
                         if (rkmessage->len) {
-                                if (conf.flags & CONF_F_FMT_AVRO_VALUE) {
+                                if (conf.flags & CONF_F_BASE64) {
+                                        unsigned char *b64;
+                                        size_t s64;
+
+                                        b64 = base64_encode(rkmessage->payload, rkmessage->len, &s64);
+                                        if (!b64)
+                                                goto fail;
+                                        r = fwrite(b64, s64, 1, fp);
+                                        free (b64);
+                                } else if (conf.flags & CONF_F_FMT_AVRO_VALUE) {
 #if ENABLE_AVRO
                                         char *json = kc_avro_to_json(
                                                 rkmessage->payload,

@@ -102,6 +102,7 @@ struct conf {
 #define CONF_F_FMT_AVRO_KEY   0x400 /* Convert key from Avro to JSON */
 #define CONF_F_FMT_AVRO_VALUE 0x800 /* Convert value from Avro to JSON  */
 #define CONF_F_SR_URL_SEEN    0x1000 /* schema.registry.url/-r seen */
+#define CONF_F_BASE64         0x2000 /* use base64 encoding for input/output */
         int     delim;
         int     key_delim;
 
@@ -170,6 +171,10 @@ void error0 (int erroronexit, const char *func, int line,
                 if (conf.verbosity >= (VERBLVL))                \
                         fprintf(stderr, "%% " __VA_ARGS__);     \
         } while (0)
+
+unsigned char * base64_encode(const unsigned char *src, size_t len, size_t *out_len);
+unsigned char * base64_decode(const unsigned char *src, size_t len, size_t *out_len);
+
 
 
 
