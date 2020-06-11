@@ -374,6 +374,9 @@ static void producer_run (FILE *fp, char **paths, int pathcnt) {
                         /* base64 encoded? */
                         if (conf.flags & CONF_F_BASE64) {
                                 buf = (char *) base64_decode((unsigned char *) sbuf, strlen(sbuf), &size);
+                                if (!buf)
+                                        KC_FATAL("base64_decode failed");
+
                                 free(sbuf);
 
                                 sbuf = buf;                                

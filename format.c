@@ -447,7 +447,7 @@ static void fmt_msg_output_str (FILE *fp,
 
                                         b64 = base64_encode(rkmessage->payload, rkmessage->len, &s64);
                                         if (!b64)
-                                                goto fail;
+                                                KC_FATAL("base64_encode failed");
                                         r = fwrite(b64, s64, 1, fp);
                                         free (b64);
                                 } else if (conf.flags & CONF_F_FMT_AVRO_VALUE) {
