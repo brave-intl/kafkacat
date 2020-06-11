@@ -1678,7 +1678,7 @@ static void argparse (int argc, char **argv,
         int i;
 
         while ((opt = getopt(argc, argv,
-                             ":PCG:LQt:p:b:z:o:eED:K:k:H:Od:qvF:X:c:Tuf:ZlVh"
+                             ":PCG:LQt:p:b:z:o:eED:K:k:H:Od:qvF:X:c:Tuf:BZlVh"
                              "s:r:Jm:")) != -1) {
                 switch (opt) {
                 case 'P':
