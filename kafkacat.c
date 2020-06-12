@@ -2332,8 +2332,7 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 		return NULL;
 
 	olen = count / 4 * 3;
-/* allow for null-termination (not needed, given usage pattern above) */
-	pos = out = os_malloc(olen + 1);
+	pos = out = os_malloc(olen);
 	if (out == NULL)
 		return NULL;
 
@@ -2366,8 +2365,6 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 			}
 		}
 	}
-/* null-terminate */
-        *pos = 0;
 
 	*out_len = pos - out;
 	return out;
