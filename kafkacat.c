@@ -373,13 +373,15 @@ static void producer_run (FILE *fp, char **paths, int pathcnt) {
 
                         /* base64 encoded? */
                         if (conf.flags & CONF_F_BASE64) {
-                                buf = (char *) base64_decode((unsigned char *) sbuf, strlen(sbuf), &size);
+                                buf = (char *) base64_decode((unsigned char *) sbuf, len, &size);
                                 if (!buf)
                                         KC_FATAL("base64_decode failed");
 
                                 free(sbuf);
 
-                                sbuf = buf;                                
+                                sbuf = buf;
+                                len = size;
+                                orig_len = size;
                         }
 
                         /* Extract key, if desired and found. */
@@ -2330,7 +2332,8 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 		return NULL;
 
 	olen = count / 4 * 3;
-	pos = out = os_malloc(olen);
+/* allow for null-termination (not needed, given usage pattern above) */
+	pos = out = os_malloc(olen + 1);
 	if (out == NULL)
 		return NULL;
 
@@ -2363,6 +2366,8 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 			}
 		}
 	}
+/* null-terminate */
+        *pos = 0;
 
 	*out_len = pos - out;
 	return out;
